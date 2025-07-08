@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        #container {
+            width: 500px;
+            height: 500px;
+        }
+
+        #container ul li div {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <select id="mySelect">
+        <option>---Select Dring Here ---</option>
+        <option>margarita</option>
+        <option>Paloma</option>
+        <option>Matador</option>
+        <option>Mojito</option>
+        <option>Daiquiri</option>
+        <option>Mai Tai</option>
+        <option>Cosmopolitan</option>
+        <option>Screwdriver</option>
+        <option>Whiskey Sour</option>
+        <option>Manhattan</option>
+        <option>Negroni</option>
+    </select>
+    <div id="container"></div>
+</body>
+
+<script>
+
+
+    $('#mySelect').on('change', function () {
+        let selectedValue = $(this).val()
+        $.getJSON(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${selectedValue}`)
+            .done(handleResult)
+            .fail(err => alert("Not Exzist"))
+
+    })
+
+    function handleResult(event) {
+        let ul = $('<ul>')
+        for (let i = 0; i < event.drinks.length; i++) {
+            let li = $('<li>').text(event.drinks[i].strDrink)
+            let div = $('<div>').html(`
+                <h1>Coctail Name : ${event.drinks[i].strDrink}</h1>
+                <h2>Category : ${event.drinks[i].strCategory}</h2>
+                  <h3>Glass  : ${event.drinks[i].strGlass}</h3>
+                  <p> ${event.drinks[i].strInstructions}</p>
+                  <img src="${event.drinks[i].strDrinkThumb}" alt="${event.drinks[i].strDrink}">
+                `
+            )
+
+            let button = $('<button>').text('Rate It')
+            button.on('click', function () {
+                let rate = prompt("Rate it between 1-10")
+                let rating = $('<h2>').text(`You Have Rated it ${rate}`)
+                $(this).parent().append(rating)
+            })
+            div.addClass(`${event.drinks[i].strDrink}`)
+            div.append(button)
+            li.append(div)
+            // li.hover(
+            //     function () { $(this).children('div').show(); },
+            //     function () { $(this).children('div').hide(); }
+            // );
+            li.on('click', function () {
+                $(this).children('div').toggle();
+            })
+            ul.append(li)
+        }
+
+
+        $('#container').append(ul)
+    }
+
+</script>
+
+</html>
