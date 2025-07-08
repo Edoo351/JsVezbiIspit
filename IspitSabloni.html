@@ -12,8 +12,47 @@
             height: 500px;
         }
 
+        img {
+            width: 250px;
+            height: 250px;
+            border-radius: 5px;
+        }
+
         #container ul li div {
             display: none;
+        }
+
+
+        li:hover {
+            background-color: red;
+            height: 40px;
+            font-size: large;
+            transition-duration: 1s;
+            padding: 10px 0px;
+            align-items: center;
+        }
+
+        li:not(:hover) {
+            transition-duration: 1s;
+        }
+
+        li {
+            border-radius: 10px;
+            padding: 10px;
+            align-items: center;
+        }
+
+        #container>ul>li>div {
+            background-color: green;
+            padding: 15px;
+            border-radius: 10px;
+
+        }
+
+        li #container ul li div {
+            background-color: green;
+            border-radius: 10px;
+
         }
     </style>
 </head>
@@ -70,13 +109,21 @@
             div.addClass(`${event.drinks[i].strDrink}`)
             div.append(button)
             li.append(div)
-            // li.hover(
-            //     function () { $(this).children('div').show(); },
-            //     function () { $(this).children('div').hide(); }
-            // );
+
             li.on('click', function () {
-                $(this).children('div').toggle();
-            })
+                let $li = $(this);
+                $li.children('div').slideToggle(1000);
+
+                // Get current color
+                let currentColor = $li.css("background-color");
+
+                if (currentColor === "rgb(0, 128, 0)") { // green
+                    $li.css("background-color", "blue");
+                } else {
+                    $li.css("background-color", "green");
+                }
+            });
+
             ul.append(li)
         }
 
