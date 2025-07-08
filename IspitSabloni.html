@@ -65,6 +65,7 @@
                 let rate = prompt("Rate it between 1-10")
                 let rating = $('<h2>').text(`You Have Rated it ${rate}`)
                 $(this).parent().append(rating)
+                $(this).hide()
             })
             div.addClass(`${event.drinks[i].strDrink}`)
             div.append(button)
