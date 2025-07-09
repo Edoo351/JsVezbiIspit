@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elimination Game</title>
+    <style>
+        #Players {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        div:first-of-type {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #game {
+            display: none;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        #eliminatedPlayers {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            gap: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Elimination Game</h1>
+        <button id="but" onclick="start()">Start Game</button>
+        <h2 id="game">Game Starts In : </h2>
+        <h2>Players That Are Playing</h2>
+        <div id="Players"></div>
+        <h3 id="play">Players That Are Eliminated</h3>
+        <h3 id="rounds"></h3>
+        <div id="eliminatedPlayers"></div>
+    </div>
+</body>
+<script>
+    let players = ["Edin", "Reshat", "Kabil", "Vahid", "Mirsat"]
+    for (let i = 0; i < players.length; i++) {
+        const playerDiv = document.getElementById("Players")
+        const player = document.createElement("div")
+        const image = document.createElement("img")
+        player.style.width = "200px"
+        player.style.height = "200px"
+        player.textContent = players[i]
+        player.style.textAlign = "center"
+        image.src = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F009%2F383%2F461%2Foriginal%2Fman-face-clipart-design-illustration-free-png.png&f=1&nofb=1&ipt=6490c5e117c6a460c2be4f944961c71fb408766c9d3e63f56edf03d6038f6eaf '
+        image.style.width = "200px"
+        image.style.height = "180px"
+        player.appendChild(image)
+        player.id = `${players[i]}`
+        playerDiv.appendChild(player)
+    }
+    function start() {
+        let eliminationPlayers = players
+        document.getElementById("but").style.display = "none"
+        let round = 1;
+        let broj = 5
+        document.getElementById("game").style.display = "flex"
+        function brojac() {
+            const data = document.getElementById("game").innerHTML = `Game Starts In : ${broj}`
+            if (broj == 0) {
+                const data = document.getElementById("game").innerHTML = `Game Started , Good Luck!`
+                return
+            }
+            broj--
+            setTimeout(brojac, 1000)
+        }
+        brojac()
+
+        function elminateNext() {
+            if (eliminationPlayers.length <= 1) {
+                const move1 = document.getElementById("Players").style.backgroundColor = "green"
+                const move2 = document.getElementById("Players").style.border = "1px solid black"
+                const move3 = document.getElementById("Players").style.borderRadius = "10px"
+                document.getElementById("play").innerHTML = `Winner is ${eliminationPlayers[0]}`
+                document.getElementById("rounds").innerHTML = `Game Round Is : ${round}`
+                return
+            }
+
+
+            let randomIndex = Math.floor(Math.random() * eliminationPlayers.length)
+            let eliminP = eliminationPlayers.splice(randomIndex, 1)[0];
+            console.log(eliminationPlayers)
+            console.log(eliminP)
+            const move = document.getElementById(`${eliminP}`)
+            move.style.backgroundColor = "red"
+            move.style.border = "1px solid black"
+            move.style.borderRadius = "10px"
+            const change = document.getElementById("eliminatedPlayers")
+            change.appendChild(move)
+            document.getElementById("rounds").innerHTML = `Game Round Is : ${round}`
+            round++
+
+            setTimeout(elminateNext, 1000)
+
+        }
+        elminateNext()
+
+
+    }
+</script>
+
+</html>

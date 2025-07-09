@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Coctail Menu</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         #container {
@@ -47,6 +47,13 @@
             padding: 15px;
             border-radius: 10px;
 
+        }
+
+        li #container ul li:active div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         li #container ul li div {
@@ -104,7 +111,7 @@
                 let rate = prompt("Rate it between 1-10")
                 let rating = $('<h2>').text(`You Have Rated it ${rate}`)
                 $(this).parent().append(rating)
-                $(this).hide()
+                $(this).fadeOut(5000)
             })
             div.addClass(`${event.drinks[i].strDrink}`)
             div.append(button)
@@ -123,7 +130,19 @@
                     $li.css("background-color", "green");
                 }
             });
+            // li.hover(function () {
+            //     let $li = $(this);
+            //     $li.children('div').slideToggle(1000);
 
+            //     // Get current color
+            //     let currentColor = $li.css("background-color");
+
+            //     if (currentColor === "rgb(0, 128, 0)") { // green
+            //         $li.css("background-color", "blue");
+            //     } else {
+            //         $li.css("background-color", "green");
+            //     }
+            // })
             ul.append(li)
         }
 
