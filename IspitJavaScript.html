@@ -15,6 +15,15 @@
             gap: 30px;
         }
 
+        #Players div,
+        #eliminatedPlayers div {
+            transition: background-color 1.5s ease, transform 1.5s ease;
+        }
+
+        #Players {
+            transition: background-color 1.5s ease, transform 1.5s ease;
+        }
+
         div:first-of-type {
             display: flex;
             justify-content: center;
@@ -90,11 +99,17 @@
         }
         brojac()
 
-        function elminateNext() {
+        setTimeout(function elminateNext() {
             if (eliminationPlayers.length <= 1) {
                 const move1 = document.getElementById("Players").style.backgroundColor = "green"
                 const move2 = document.getElementById("Players").style.border = "1px solid black"
                 const move3 = document.getElementById("Players").style.borderRadius = "10px"
+                const move = document.getElementById("Players").style.transform = "scale(1.1)"
+                setTimeout(() => {
+                    const move = document.getElementById("Players").style.transform = "scale(1)"
+
+                }, 1000)
+
                 document.getElementById("play").innerHTML = `Winner is ${eliminationPlayers[0]}`
                 document.getElementById("rounds").innerHTML = `Game Round Is : ${round}`
                 return
@@ -106,17 +121,23 @@
             console.log(eliminationPlayers)
             console.log(eliminP)
             const move = document.getElementById(`${eliminP}`)
-            move.style.backgroundColor = "red"
-            move.style.border = "1px solid black"
-            move.style.borderRadius = "10px"
-            const change = document.getElementById("eliminatedPlayers")
-            change.appendChild(move)
-            document.getElementById("rounds").innerHTML = `Game Round Is : ${round}`
-            round++
+            move.style.backgroundColor = "red";
+            move.style.border = "1px solid black";
+            move.style.borderRadius = "10px";
+            move.style.transform = "scale(1.1)"; // Optional pop effect
 
-            setTimeout(elminateNext, 1000)
+            setTimeout(() => {
+                move.style.transform = "scale(1)"
+                const change = document.getElementById("eliminatedPlayers");
+                change.appendChild(move);
+            }, 1500);
 
-        }
+            document.getElementById("rounds").innerHTML = `Game Round Is : ${round}`;
+            round++;
+
+            setTimeout(elminateNext, 2000)
+
+        }, 5000)
         elminateNext()
 
 
